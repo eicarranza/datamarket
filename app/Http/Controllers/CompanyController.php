@@ -29,7 +29,11 @@ class CompanyController extends Controller
     {
         $companies = $this->api_connection->search($args);
 
-        return $companies;
+        return json_encode([
+            'status' => 'success', 
+            'msg' => 'Get repairs list', 
+            'args' => $companies, 
+        ]);
     }
 
     public function edit($company_id)

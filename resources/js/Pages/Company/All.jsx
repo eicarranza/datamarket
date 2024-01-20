@@ -2,24 +2,40 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head } from '@inertiajs/react';
 import Table from '@/Components/Table';
+import { useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
 const columns = [
     'name',
     'currency',
     'stockExchange',
 ]
-
-const submit = (e) => {
-    e.preventDefault();
-        fetch(route('company.search'), {
-            headers: { Accept: 'application/json' },
-        }).then(response => response.json()).then(json => {
-            // console.log(json)
-            // companies=json
-        })
-};
-
 export default function All({auth, companies, dataprovider}) {
+    const { data, setData } = useForm(companies);
+    const [args, setArgs] = useState('');
+    // const [data, setData] = useState('');
+
+    const handleChange = (event) => {
+        // 👇 Get input value from "event"
+        setArgs(event.target.value);
+      };
+    
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(args);
+            fetch(route('company.search', args), {
+                headers: { Accept: 'application/json' },
+            }).then(response => response.json()).then(json => {
+            // }).then(response => response).then(json => {
+                setData(data, json['args']);
+                console.log(data)
+                console.log(json['args'])
+                
+            })
+    };
+
+    
+    
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -37,14 +53,15 @@ export default function All({auth, companies, dataprovider}) {
                                 name="search" 
                                 className="text-xs py-2 h-10 px-4 pl-6 w-52 md:w-auto focus:outline-none leading-9 tracking-wide 
                                     text-gray-700 border border-gray-300 bg-gray-100 rounded-lg  "
-                                placeholder="SEARCH"/>
+                                placeholder="SEARCH"
+                                onChange={handleChange}/>
                             <div className="flex items-center gap-4">
                                 <PrimaryButton>Search</PrimaryButton>
                             </div>
                         </div>
                         <br/>
                         <Table 
-                            items={companies} 
+                            items={data} 
                             columns={columns} 
                             primary="Symbol"  
                             quote="company.quote"

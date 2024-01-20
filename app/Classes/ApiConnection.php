@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Models\APIDataprovider;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class ApiConnection
@@ -16,13 +17,18 @@ class ApiConnection
 
     public function search($arg)
     {
-        $response = Http::get($this->provider->base_url.'/'.$this->provider->companies_list_link, [
-                'query' => $arg,
-                'limit' => $this->provider->limit,
-                'apikey' => $this->provider->apikey,
-        ]);
-        
-        return json_decode($response->body());
+        $companies = Cache::remember('companies', 60, function() use ($arg) {
+            $response = Http::get($this->provider->base_url.'/'.$this->provider->companies_list_link, [
+                    'query' => $arg,
+                    'limit' => $this->provider->limit,
+                    'apikey' => $this->provider->apikey,
+            ]);
+
+            return json_decode($response->body());
+        });
+
+        return $companies;
+        // return json_decode($response->body());
     }   
 
     public function getCompany($company_id)

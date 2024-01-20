@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
-    // Route::get('/company/search{query}', [CompanyController::class, 'search'])->name('company.search');
+    Route::get('/company/search/{args}', [CompanyController::class, 'search'])->name('company.search');
     Route::get('/company/{company}', [CompanyController::class, 'edit'])->name('company.edit');
     Route::get('/company/quote/{company}', [CompanyController::class, 'quote'])->name('company.quote');
     Route::patch('/company/{company}', [CompanyController::class, 'update'])->name('company.update');
