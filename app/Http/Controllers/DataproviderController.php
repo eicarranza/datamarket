@@ -29,6 +29,7 @@ class DataproviderController extends Controller
             'profile_link' => $request->profile_link,
             'quote_link' => $request->quote_link,
             'limit'     => $request->limit,
+            'api_query'     => $request->api_query,
         ]);
     }
 }

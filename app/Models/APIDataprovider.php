@@ -11,5 +11,5 @@ class APIDataprovider extends Model
     protected $fillable = [
         'name', 'base_url', 'apikey', 
         'companies_list_link', 'profile_link', 
-        'quote_link', 'limit'];
+        'quote_link', 'limit', 'api_query'];
 }

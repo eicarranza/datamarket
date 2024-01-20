@@ -15,8 +15,10 @@ class ApiConnection
         $this->provider = APIDataprovider::find(1);
     }
 
-    public function search($arg)
+    public function search()
     {
+        $arg = $this->provider->api_query;
+        
         $companies = Cache::remember('companies', 60, function() use ($arg) {
             $response = Http::get($this->provider->base_url.'/'.$this->provider->companies_list_link, [
                     'query' => $arg,
@@ -28,7 +30,6 @@ class ApiConnection
         });
 
         return $companies;
-        // return json_decode($response->body());
     }   
 
     public function getCompany($company_id)

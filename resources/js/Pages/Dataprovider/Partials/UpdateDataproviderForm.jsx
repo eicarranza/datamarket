@@ -4,7 +4,6 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import SelectInput from "@/Components/SelectInput.jsx";
 
 export default function UpdateDataproviderForm({ dataprovider}) {
 
@@ -17,6 +16,7 @@ export default function UpdateDataproviderForm({ dataprovider}) {
         profile_link: dataprovider.profile_link,
         quote_link: dataprovider.quote_link,
         limit: dataprovider.limit,
+        api_query: dataprovider.api_query,
     });
 
     const submit = (e) => {
@@ -115,6 +115,16 @@ export default function UpdateDataproviderForm({ dataprovider}) {
                     />
                 </div>
 
+                <div>
+                    <InputLabel htmlFor="query" value="query" />
+
+                    <TextInput
+                        id="Query"
+                        className="mt-1 block w-full"
+                        value={data.api_query}
+                        onChange={(e) => setData('api_query', e.target.value)}
+                    />
+                </div>
                 <div>
                     <InputLabel htmlFor="status" value="Status" />
 

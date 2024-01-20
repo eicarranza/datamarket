@@ -17,22 +17,10 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $companies = $this->api_connection->search("A");
+        $companies = $this->api_connection->search();
 
         return Inertia::render('Company/All', [
             'companies' => $companies,
-            'dataprovider' => $this->api_connection->getDataProvider(),
-        ]);
-    }
-
-    public function search($args)
-    {
-        $companies = $this->api_connection->search($args);
-
-        return json_encode([
-            'status' => 'success', 
-            'msg' => 'Get repairs list', 
-            'args' => $companies, 
         ]);
     }
 
